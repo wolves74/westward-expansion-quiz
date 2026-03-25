@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 24.8.1.2 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="00:00:00"/>
+	<style type="text/css">
+		@page { size: 8.27in 11.69in; margin: 0.79in }
+		p { line-height: 115%; margin-bottom: 0.1in; background: transparent }
+		pre { background: transparent }
+		pre.western { font-family: "Liberation Mono", monospace; font-size: 10pt }
+		pre.cjk { font-family: "NSimSun", monospace; font-size: 10pt }
+		pre.ctl { font-family: "Liberation Mono", monospace; font-size: 10pt }
+	</style>
+</head>
+<body lang="en-US" link="#000080" vlink="#800000" dir="ltr"><pre class="western">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+
+&lt;style&gt;
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+}
+
+/* PAGE SETUP */
+.page {
+  display: none;
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+}
+
+/* SHOW FIRST PAGE */
+#page1 {
+  display: block;
+  background-image: url(&quot;WWE3.jpeg&quot;);
+}
+
+/* BACKGROUND IMAGES */
+#page2 { background-image: url(&quot;WWE1.jpeg&quot;); }
+#page3 { background-image: url(&quot;WWE2.jpeg&quot;); }
+
+/* CONTENT BOX */
+.box {
+  width: 60%;
+  margin: 100px auto;
+  background: rgba(255,255,255,0.85);
+  padding: 30px;
+  border-radius: 15px;
+}
+
+/* BUTTON STYLE */
+button {
+  padding: 12px 20px;
+  border: none;
+  background: #8d6e4f;
+  color: white;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #6f543c;
+}
+
+&lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;!-- PAGE 1: TITLE --&gt;
+&lt;div id=&quot;page1&quot; class=&quot;page&quot;&gt;
+  &lt;div class=&quot;box&quot; style=&quot;text-align:center;&quot;&gt;
+    &lt;h1&gt;Manifest Destiny Quiz&lt;/h1&gt;
+    &lt;p&gt;Click below to begin&lt;/p&gt;
+    &lt;button onclick=&quot;nextPage(2)&quot;&gt;Start Quiz&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- PAGE 2: QUESTION 1 --&gt;
+&lt;div id=&quot;page2&quot; class=&quot;page&quot;&gt;
+  &lt;div class=&quot;box&quot;&gt;
+    &lt;h2&gt;1. What was Manifest Destiny?&lt;/h2&gt;
+
+    &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;q1&quot; value=&quot;a&quot;&gt; Expansion westward&lt;/label&gt;&lt;br&gt;
+    &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;q1&quot; value=&quot;b&quot;&gt; Trade route&lt;/label&gt;&lt;br&gt;
+    &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;q1&quot; value=&quot;c&quot;&gt; Railroad company&lt;/label&gt;&lt;br&gt;&lt;br&gt;
+
+    &lt;button onclick=&quot;nextPage(3)&quot;&gt;Next&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- PAGE 3: QUESTION 2 --&gt;
+&lt;div id=&quot;page3&quot; class=&quot;page&quot;&gt;
+  &lt;div class=&quot;box&quot;&gt;
+    &lt;h2&gt;2. What vehicle did settlers use?&lt;/h2&gt;
+
+    &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;q2&quot; value=&quot;a&quot;&gt; Covered wagon&lt;/label&gt;&lt;br&gt;
+    &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;q2&quot; value=&quot;b&quot;&gt; Boat&lt;/label&gt;&lt;br&gt;
+    &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;q2&quot; value=&quot;c&quot;&gt; Train&lt;/label&gt;&lt;br&gt;&lt;br&gt;
+
+    &lt;button onclick=&quot;showResults()&quot;&gt;Submit&lt;/button&gt;
+
+    &lt;div id=&quot;result&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+
+/* SWITCH PAGES */
+function nextPage(pageNumber) {
+  document.querySelectorAll(&quot;.page&quot;).forEach(p =&gt; p.style.display = &quot;none&quot;);
+  document.getElementById(&quot;page&quot; + pageNumber).style.display = &quot;block&quot;;
+}
+
+/* CHECK ANSWERS */
+function showResults() {
+  let score = 0;
+
+  let q1 = document.querySelector('input[name=&quot;q1&quot;]:checked');
+  let q2 = document.querySelector('input[name=&quot;q2&quot;]:checked');
+
+  if (q1 &amp;&amp; q1.value === &quot;a&quot;) score++;
+  if (q2 &amp;&amp; q2.value === &quot;a&quot;) score++;
+
+  document.getElementById(&quot;result&quot;).innerHTML =
+    &quot;&lt;h3&gt;Your Score: &quot; + score + &quot;/2&lt;/h3&gt;&quot;;
+}
+
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</body>
+</html>
