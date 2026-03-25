@@ -1,123 +1,437 @@
-<!DOCTYPE html> 
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manifest Destiny Quiz</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Georgia, serif;
+    }
 
-<style>
-body {
-  margin: 0;
-  font-family: Georgia, serif;
-}
+    .page {
+      display: none;
+      width: 100%;
+      min-height: 100vh;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      padding: 30px 0;
+      box-sizing: border-box;
+    }
 
-.page {
-  display: none;
-  width: 100%;
-  height: 100vh;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
+    #page1 {
+      display: block;
+      background-image: url("WWE3.JPG");
+      min-height: 100vh;
+    }
 
-#page1 {
-  display: block;
-  background-image: url("WWE3.JPG");
-}
+    #page2 {
+      background-image: url("WWE1.PNG");
+    }
 
-#page2 {
-  background-image: url("WWE1.PNG");
-}
+    #page3 {
+      background-image: url("WWE2.PNG");
+    }
 
-#page3 {
-  background-image: url("WWE2.PNG");
-}
+    .box {
+      width: 60%;
+      margin: 60px auto;
+      background: rgba(255,255,255,0.88);
+      padding: 30px;
+      border-radius: 15px;
+      box-sizing: border-box;
+    }
 
-.box {
-  width: 60%;
-  margin: 100px auto;
-  background: rgba(255,255,255,0.85);
-  padding: 30px;
-  border-radius: 15px;
-}
+    .question {
+      margin-bottom: 22px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
 
-button {
-  padding: 12px 20px;
-  border: none;
-  background: #8d6e4f;
-  color: white;
-  font-size: 16px;
-  border-radius: 10px;
-  cursor: pointer;
-}
+    .question:last-child {
+      border-bottom: none;
+    }
 
-button:hover {
-  background: #6f543c;
-}
+    .question p {
+      margin: 0 0 10px 0;
+      font-weight: bold;
+      line-height: 1.4;
+    }
 
-#result {
-  margin-top: 20px;
-  font-size: 20px;
-  font-weight: bold;
-}
-</style>
+    label {
+      display: block;
+      margin: 6px 0;
+      line-height: 1.4;
+    }
+
+    button {
+      padding: 12px 20px;
+      border: none;
+      background: #8d6e4f;
+      color: white;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #6f543c;
+    }
+
+    .button-row {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    #review {
+      margin-top: 20px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .review-item {
+      margin-bottom: 14px;
+      padding: 10px;
+      background: rgba(255,255,255,0.65);
+      border-radius: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .box {
+        width: 88%;
+        margin: 30px auto;
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div id="page1" class="page">
-  <div class="box" style="text-align:center;">
-    <h1>Manifest Destiny Quiz</h1>
-    <p>Click below to begin</p>
-    <button onclick="nextPage(2)">Start Quiz</button>
+  <div id="page1" class="page">
+    <div class="box" style="text-align:center;">
+      <h1>Manifest Destiny Quiz</h1>
+      <p>20 Questions</p>
+      <p>Questions and answer choices will mix each time.</p>
+      <button onclick="startQuiz()">Start Quiz</button>
+    </div>
   </div>
-</div>
 
-<div id="page2" class="page">
-  <div class="box">
-    <h2>1. What was Manifest Destiny?</h2>
-
-    <label><input type="radio" name="q1" value="a"> Expansion westward</label><br>
-    <label><input type="radio" name="q1" value="b"> Trade route</label><br>
-    <label><input type="radio" name="q1" value="c"> Railroad company</label><br><br>
-
-    <button onclick="nextPage(3)">Next</button>
+  <div id="page2" class="page">
+    <div class="box">
+      <div id="questionsPage1"></div>
+      <div class="button-row">
+        <button onclick="goToPage(3)">Next</button>
+      </div>
+    </div>
   </div>
-</div>
 
-<div id="page3" class="page">
-  <div class="box">
-    <h2>2. What vehicle did settlers use?</h2>
-
-    <label><input type="radio" name="q2" value="a"> Covered wagon</label><br>
-    <label><input type="radio" name="q2" value="b"> Boat</label><br>
-    <label><input type="radio" name="q2" value="c"> Train</label><br><br>
-
-    <button onclick="showResults()">Submit</button>
-
-    <div id="result"></div>
+  <div id="page3" class="page">
+    <div class="box">
+      <div id="questionsPage2"></div>
+      <div class="button-row">
+        <button onclick="showResults()">Submit</button>
+        <button onclick="startQuiz()">Try Again</button>
+      </div>
+      <div id="result"></div>
+      <div id="review"></div>
+    </div>
   </div>
-</div>
 
-<script>
-function nextPage(pageNumber) {
-  document.querySelectorAll(".page").forEach(function(page) {
-    page.style.display = "none";
-  });
-  document.getElementById("page" + pageNumber).style.display = "block";
-}
+  <script>
+    const questionBank = [
+      {
+        id: "q1",
+        promptVersions: [
+          "Manifest Destiny was the belief that the United States should expand west across North America.",
+          "The idea of Manifest Destiny supported U.S. expansion to the West."
+        ],
+        correct: "True",
+        wrong: "False"
+      },
+      {
+        id: "q2",
+        promptVersions: [
+          "Many settlers moved west because they wanted land and new chances to succeed.",
+          "A main reason people moved west was to find land and opportunity."
+        ],
+        correct: "True",
+        wrong: "False"
+      },
+      {
+        id: "q3",
+        promptVersions: [
+          "The Louisiana Purchase greatly increased the size of the United States.",
+          "The Louisiana Purchase added a huge amount of land to the U.S."
+        ],
+        correct: "True",
+        wrong: "False"
+      },
+      {
+        id: "q4",
+        promptVersions: [
+          "The Oregon Trail was one route settlers used to travel west.",
+          "Many pioneers used the Oregon Trail on their journey west."
+        ],
+        correct: "True",
+        wrong: "False"
+      },
+      {
+        id: "q5",
+        promptVersions: [
+          "The California Gold Rush caused many people to move west.",
+          "News of gold in California encouraged people to head west."
+        ],
+        correct: "True",
+        wrong: "False"
+      },
+      {
+        id: "q6",
+        promptVersions: [
+          "Most settlers traveled west by airplane.",
+          "Airplanes were the main way pioneers reached the West."
+        ],
+        correct: "False",
+        wrong: "True"
+      },
+      {
+        id: "q7",
+        promptVersions: [
+          "Westward expansion led to conflicts with many Native American groups.",
+          "As Americans moved west, fights and tensions grew with Native Americans."
+        ],
+        correct: "True",
+        wrong: "False"
+      },
+      {
+        id: "q8",
+        promptVersions: [
+          "The United States gained land after the Mexican-American War.",
+          "One result of the Mexican-American War was that the U.S. got more territory."
+        ],
+        correct: "True",
+        wrong: "False"
+      },
+      {
+        id: "q9",
+        promptVersions: [
+          "Westward expansion had no effect on Native Americans.",
+          "Native American groups were not affected by westward movement."
+        ],
+        correct: "False",
+        wrong: "True"
+      },
+      {
+        id: "q10",
+        promptVersions: [
+          "Railroads helped people and goods move west more quickly.",
+          "The growth of railroads made westward travel faster."
+        ],
+        correct: "True",
+        wrong: "False"
+      },
+      {
+        id: "q11",
+        promptVersions: [
+          "Manifest Destiny was based on the idea that the U.S. had a right to expand.",
+          "People who believed in Manifest Destiny thought the nation should spread west."
+        ],
+        correct: "True",
+        wrong: "False"
+      },
+      {
+        id: "q12",
+        promptVersions: [
+          "The Homestead Act gave land to settlers willing to live on and farm it.",
+          "Under the Homestead Act, settlers could earn land by farming it."
+        ],
+        correct: "True",
+        wrong: "False"
+      },
+      {
+        id: "q13",
+        promptVersions: [
+          "Florida became part of the U.S. after being bought from Spain.",
+          "The United States gained Florida from Spain."
+        ],
+        correct: "True",
+        wrong: "False"
+      },
+      {
+        id: "q14",
+        promptVersions: [
+          "Covered wagons were often used by pioneer families traveling west.",
+          "Many pioneer families used covered wagons on western trails."
+        ],
+        correct: "True",
+        wrong: "False"
+      },
+      {
+        id: "q15",
+        promptVersions: [
+          "As the country expanded west, new states were added to the United States.",
+          "Westward expansion helped lead to the creation of new U.S. states."
+        ],
+        correct: "True",
+        wrong: "False"
+      },
+      {
+        id: "q16",
+        promptVersions: [
+          "Native Americans willingly gave up all of their land to settlers.",
+          "Native American groups freely handed over their lands during expansion."
+        ],
+        correct: "False",
+        wrong: "True"
+      },
+      {
+        id: "q17",
+        promptVersions: [
+          "The California Gold Rush began in 1848.",
+          "Gold was discovered in California in 1848, starting the Gold Rush."
+        ],
+        correct: "True",
+        wrong: "False"
+      },
+      {
+        id: "q18",
+        promptVersions: [
+          "Westward expansion helped the United States reach the Pacific Ocean.",
+          "As the U.S. expanded west, it stretched all the way to the Pacific."
+        ],
+        correct: "True",
+        wrong: "False"
+      },
+      {
+        id: "q19",
+        promptVersions: [
+          "The Mexican-American War caused the U.S. to lose land.",
+          "After the Mexican-American War, the United States had less land than before."
+        ],
+        correct: "False",
+        wrong: "True"
+      },
+      {
+        id: "q20",
+        promptVersions: [
+          "Westward expansion created arguments over slavery in new territories.",
+          "As new western lands were added, people argued about whether slavery would spread there."
+        ],
+        correct: "True",
+        wrong: "False"
+      }
+    ];
 
-function showResults() {
-  let score = 0;
+    let activeQuestions = [];
 
-  let q1 = document.querySelector('input[name="q1"]:checked');
-  let q2 = document.querySelector('input[name="q2"]:checked');
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
 
-  if (q1 && q1.value === "a") score++;
-  if (q2 && q2.value === "a") score++;
+    function pickPrompt(promptVersions) {
+      return promptVersions[Math.floor(Math.random() * promptVersions.length)];
+    }
 
-  document.getElementById("result").innerHTML =
-    "<h3>Your Score: " + score + "/2</h3>";
-}
-</script>
+    function buildQuestionHTML(question, number) {
+      const prompt = pickPrompt(question.promptVersions);
+
+      const choices = shuffleArray([
+        { text: question.correct, isCorrect: true },
+        { text: question.wrong, isCorrect: false }
+      ]);
+
+      question.currentPrompt = prompt;
+      question.currentChoices = choices;
+
+      return `
+        <div class="question">
+          <p>${number}. ${prompt}</p>
+          <label>
+            <input type="radio" name="${question.id}" value="${choices[0].isCorrect}">
+            ${choices[0].text}
+          </label>
+          <label>
+            <input type="radio" name="${question.id}" value="${choices[1].isCorrect}">
+            ${choices[1].text}
+          </label>
+        </div>
+      `;
+    }
+
+    function renderQuestions() {
+      const page1 = document.getElementById("questionsPage1");
+      const page2 = document.getElementById("questionsPage2");
+
+      page1.innerHTML = "";
+      page2.innerHTML = "";
+
+      activeQuestions.forEach((question, index) => {
+        const html = buildQuestionHTML(question, index + 1);
+        if (index < 10) {
+          page1.innerHTML += html;
+        } else {
+          page2.innerHTML += html;
+        }
+      });
+    }
+
+    function goToPage(pageNumber) {
+      document.querySelectorAll(".page").forEach(page => page.style.display = "none");
+      document.getElementById("page" + pageNumber).style.display = "block";
+      window.scrollTo(0, 0);
+    }
+
+    function startQuiz() {
+      activeQuestions = shuffleArray(questionBank).map(q => ({ ...q }));
+      document.getElementById("result").innerHTML = "";
+      document.getElementById("review").innerHTML = "";
+      renderQuestions();
+      goToPage(2);
+    }
+
+    function showResults() {
+      let score = 0;
+      let reviewHTML = "";
+
+      activeQuestions.forEach((question, index) => {
+        const selected = document.querySelector(`input[name="${question.id}"]:checked`);
+        const questionNumber = index + 1;
+
+        if (selected && selected.value === "true") {
+          score++;
+        } else {
+          const correctText = question.correct;
+          reviewHTML += `
+            <div class="review-item">
+              <strong>Question ${questionNumber}:</strong> ${question.currentPrompt}<br>
+              <strong>Correct answer:</strong> ${correctText}
+            </div>
+          `;
+        }
+      });
+
+      document.getElementById("result").innerHTML = `<h3>Your Score: ${score}/20</h3>`;
+
+      if (reviewHTML === "") {
+        document.getElementById("review").innerHTML = "<p style='text-align:center;'><strong>Great job. You got every question correct.</strong></p>";
+      } else {
+        document.getElementById("review").innerHTML = `<h3>Review</h3>${reviewHTML}`;
+      }
+    }
+  </script>
 
 </body>
 </html>
