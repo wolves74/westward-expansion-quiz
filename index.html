@@ -7,69 +7,58 @@
 body {
   margin: 0;
   font-family: Georgia, serif;
+  background: #f6f3ee;
 }
 
-/* PAGES */
-.page {
-  display: none;
-  width: 100%;
-  min-height: 100vh;
-}
+.page { display:none; width:100%; min-height:100vh; }
+#page1 { display:block; position:relative; }
 
-#page1 {
-  display: block;
-  position: relative;
-}
+.cover { width:100%; display:block; }
 
-/* COVER IMAGE */
-.cover {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* INVISIBLE BUTTON */
 .start-btn {
-  position: absolute;
-  bottom: 6%;
-  right: 10%;
-  width: 320px;
-  height: 90px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
+  position:absolute;
+  bottom:6%;
+  right:10%;
+  width:320px;
+  height:90px;
+  background:transparent;
+  border:none;
+  cursor:pointer;
 }
 
-/* QUIZ BOX */
 .box {
-  width: 90%;
-  max-width: 700px;
-  margin: 40px auto;
-  background: rgba(255,255,255,0.95);
-  padding: 25px;
-  border-radius: 12px;
+  width:90%;
+  max-width:850px;
+  margin:40px auto;
+  background:white;
+  padding:25px;
+  border-radius:12px;
 }
 
-/* BUTTONS */
+h2 { text-align:center; }
+
+.question { margin-bottom:20px; }
+
+label { display:block; margin:6px 0; cursor:pointer; }
+
+.match { margin-bottom:15px; }
+
 button {
-  padding: 12px 18px;
-  border: none;
-  background: #8d6e4f;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 10px;
+  padding:12px 20px;
+  background:#8d6e4f;
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  margin:10px;
 }
 
-/* QUESTION */
-.question {
-  margin-bottom: 20px;
-}
+.button-row { text-align:center; }
 
-/* STUDENT INFO */
-.student-info {
-  text-align: center;
-  margin-bottom: 20px;
+@media print {
+  body * { visibility:hidden; }
+  #printArea, #printArea * { visibility:visible; }
+  #printArea { position:absolute; top:0; left:0; width:100%; background:white; padding:30px; }
 }
 </style>
 </head>
@@ -86,89 +75,128 @@ button {
 <div id="page2" class="page">
   <div class="box">
 
-    <div class="student-info">
-      <label>Student Name:</label><br>
-      <input id="studentName" placeholder="Enter name">
+    <div style="text-align:center;">
+      <label><b>Name:</b></label>
+      <input id="name" style="padding:10px; width:250px;">
     </div>
 
+    <h2>Part 1: Vocabulary</h2>
+    <div id="vocab"></div>
+
+    <h2>Part 2: Multiple Choice</h2>
     <div id="quiz"></div>
 
-    <button onclick="submitQuiz()">Submit</button>
+    <div class="button-row">
+      <button onclick="submitQuiz()">Submit</button>
+      <button onclick="location.reload()">Try Again</button>
+      <button onclick="window.print()">Print</button>
+    </div>
 
     <div id="results"></div>
+
+    <div id="printArea">
+      <h2>Manifest Destiny Quiz</h2>
+      <p><b>Name:</b> <span id="printName"></span></p>
+      <p><b>Score:</b> <span id="printScore"></span></p>
+    </div>
 
   </div>
 </div>
 
 <script>
 
-let questions = [
-
-{q:"What was Manifest Destiny?", a:"Belief U.S. should expand west", b:"Law about taxes", correct:"a"},
-{q:"Which ocean did Americans want to reach?", a:"Atlantic", b:"Pacific", correct:"b"},
-{q:"Who were pioneers?", a:"People moving west", b:"Government leaders", correct:"a"},
-{q:"What was the Oregon Trail?", a:"A road to Canada", b:"A route west", correct:"b"},
-{q:"Why did settlers move west?", a:"Land and opportunity", b:"To avoid taxes only", correct:"a"},
-{q:"Which group was harmed by expansion?", a:"Native Americans", b:"Factory workers", correct:"a"},
-{q:"What was the Louisiana Purchase?", a:"Buying land from France", b:"War with Spain", correct:"a"},
-{q:"What did settlers travel in?", a:"Covered wagons", b:"Boats only", correct:"a"},
-{q:"What was the Homestead Act?", a:"Free land law", b:"Tax law", correct:"a"},
-{q:"Which was a danger on trails?", a:"Disease", b:"Television", correct:"a"},
-{q:"What did Manifest Destiny encourage?", a:"Expansion west", b:"Staying east", correct:"a"},
-{q:"Who led Lewis and Clark?", a:"Jefferson sent them", b:"Washington sent them", correct:"a"},
-{q:"Why was gold important?", a:"People rushed west", b:"It ended expansion", correct:"a"},
-{q:"What was the Gold Rush?", a:"Search for gold in CA", b:"A war", correct:"a"},
-{q:"Which land was gained after war with Mexico?", a:"Southwest", b:"Canada", correct:"a"},
-{q:"What transportation helped expansion later?", a:"Railroads", b:"Airplanes", correct:"a"},
-{q:"What happened to Native Americans?", a:"Forced off land", b:"Given land", correct:"a"},
-{q:"What belief justified expansion?", a:"Manifest Destiny", b:"Industrialism", correct:"a"},
-{q:"Why was land appealing?", a:"Farming and freedom", b:"Only cold weather", correct:"a"},
-{q:"What did expansion create?", a:"New states", b:"Less land", correct:"a"}
-
+/* VOCAB */
+let vocab = [
+{word:"Manifest Destiny", def:"Belief U.S. should expand west"},
+{word:"Oregon Trail", def:"Route settlers used west"},
+{word:"Gold Rush", def:"Search for gold in California"},
+{word:"Homestead Act", def:"Law giving free land"},
+{word:"Pioneer", def:"Person who moves to new land"}
 ];
 
-function shuffle(array) {
-  return array.sort(() => Math.random() - 0.5);
-}
+/* QUESTIONS */
+let questions = [
+["What was Manifest Destiny?",["A tax law","A belief to expand west","A war","A trade route"],1],
+["Which ocean did U.S. reach?",["Atlantic","Pacific","Indian","Arctic"],1],
+["Who were pioneers?",["Leaders","Settlers moving west","Soldiers","Farmers only"],1],
+["Oregon Trail was?",["River","Path west","City","Law"],1],
+["Why move west?",["Gold & land","Only taxes","Cold weather","War"],0],
+["Who was affected most?",["Native Americans","Factory workers","Teachers","Merchants"],0],
+["Louisiana Purchase?",["Bought land","War","Treaty only","Trade"],0],
+["Travel method?",["Planes","Wagons","Cars","Ships"],1],
+["Homestead Act did?",["Taxes","Free land","War law","Railroads"],1],
+["Trail danger?",["TV","Disease","Phones","Internet"],1],
+["Expansion encouraged?",["Staying east","Going west","Travel abroad","None"],1],
+["Gold Rush result?",["People moved west","Ended travel","Stopped expansion","War"],0],
+["California gold year?",["1848","1900","1800","1700"],0],
+["War with Mexico result?",["More land","Lost land","No change","Alliance"],0],
+["Railroads did?",["Slow travel","Faster travel","No change","Stop travel"],1],
+["Native Americans?",["Forced off land","Given land","No change","Helped expansion"],0],
+["Expansion belief?",["Manifest Destiny","Industrialism","Colonialism","None"],0],
+["Why land appealing?",["Farming","Cold","Nothing","Taxes"],0],
+["Expansion created?",["New states","Less land","Wars only","Nothing"],0],
+["Final goal?",["Reach Pacific","Return east","Trade only","Stop growth"],0]
+];
+
+function shuffle(a){ return a.sort(()=>Math.random()-0.5); }
 
 function startQuiz(){
   document.getElementById("page1").style.display="none";
   document.getElementById("page2").style.display="block";
 
-  let quizDiv = document.getElementById("quiz");
-  quizDiv.innerHTML = "";
-
-  let shuffled = shuffle(questions);
-
-  shuffled.forEach((q,i)=>{
-    quizDiv.innerHTML += `
-      <div class="question">
-        <p>${i+1}. ${q.q}</p>
-        <label><input type="radio" name="q${i}" value="a"> ${q.a}</label><br>
-        <label><input type="radio" name="q${i}" value="b"> ${q.b}</label>
-      </div>
-    `;
+  let v = "";
+  vocab.forEach((item,i)=>{
+    let defs = shuffle(vocab.map(x=>x.def));
+    v += `<div class="match">
+      <b>${item.word}</b><br>
+      <select id="v${i}">
+        ${defs.map(d=>`<option>${d}</option>`).join("")}
+      </select>
+    </div>`;
   });
+  document.getElementById("vocab").innerHTML = v;
+
+  let qHTML="";
+  shuffle(questions).forEach((q,i)=>{
+    let opts = shuffle(q[1].map((text,idx)=>({text, idx})));
+    qHTML += `<div class="question">
+      <p>${i+1}. ${q[0]}</p>
+      ${opts.map(o=>`
+        <label>
+          <input type="radio" name="q${i}" value="${o.idx}">
+          ${o.text}
+        </label>
+      `).join("")}
+    </div>`;
+    q.correctIndex = q[2];
+    q.currentOptions = opts;
+  });
+
+  window.currentQuestions = questions;
+  document.getElementById("quiz").innerHTML = qHTML;
 }
 
 function submitQuiz(){
-  let score = 0;
-  let total = questions.length;
+  let score=0;
+  let total=25;
 
-  questions.forEach((q,i)=>{
-    let answer = document.querySelector(`input[name="q${i}"]:checked`);
-    if(answer && answer.value === q.correct){
-      score++;
-    }
+  vocab.forEach((v,i)=>{
+    let val = document.getElementById(`v${i}`).value;
+    if(val===v.def) score++;
   });
 
-  let name = document.getElementById("studentName").value;
+  currentQuestions.forEach((q,i)=>{
+    let ans = document.querySelector(`input[name="q${i}"]:checked`);
+    if(ans && parseInt(ans.value)===q.correctIndex) score++;
+  });
 
-  document.getElementById("results").innerHTML = `
-    <h3>${name}'s Score: ${score}/${total}</h3>
-    <button onclick="location.reload()">Try Again</button>
-    <button onclick="window.print()">Print</button>
-  `;
+  let name=document.getElementById("name").value;
+
+  document.getElementById("results").innerHTML =
+    `<h3>${name}'s Score: ${score}/25</h3>`;
+
+  document.getElementById("printName").textContent=name;
+  document.getElementById("printScore").textContent=`${score}/25`;
 }
 
 </script>
