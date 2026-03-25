@@ -1,599 +1,177 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manifest Destiny Interactive Quiz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Georgia, serif;
-      background: #f6f3ee;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Georgia, serif;
+}
 
-    .page {
-      display: none;
-      width: 100%;
-      min-height: 100vh;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      position: relative;
-      box-sizing: border-box;
-      padding: 30px 0;
-    }
+/* PAGES */
+.page {
+  display: none;
+  width: 100%;
+  min-height: 100vh;
+}
 
-    #page1 {
-      display: block;
-      background-image: url("cover.JPG");
-      min-height: 100vh;
-      padding: 0;
-    }
+#page1 {
+  display: block;
+  position: relative;
+}
 
-    #page2 {
-      background-image: url("WWE1.PNG");
-    }
+/* COVER IMAGE */
+.cover {
+  width: 100%;
+  height: auto;
+  display: block;
+}
 
-    #page3 {
-      background-image: url("WWE2.PNG");
-    }
+/* INVISIBLE BUTTON */
+.start-btn {
+  position: absolute;
+  bottom: 6%;
+  right: 10%;
+  width: 320px;
+  height: 90px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
 
-    .box {
-      width: 60%;
-      margin: 55px auto;
-      background: rgba(255,255,255,0.90);
-      padding: 30px;
-      border-radius: 16px;
-      box-sizing: border-box;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-    }
+/* QUIZ BOX */
+.box {
+  width: 90%;
+  max-width: 700px;
+  margin: 40px auto;
+  background: rgba(255,255,255,0.95);
+  padding: 25px;
+  border-radius: 12px;
+}
 
-    .question {
-      margin-bottom: 22px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid rgba(0,0,0,0.08);
-    }
+/* BUTTONS */
+button {
+  padding: 12px 18px;
+  border: none;
+  background: #8d6e4f;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
 
-    .question:last-child {
-      border-bottom: none;
-    }
+/* QUESTION */
+.question {
+  margin-bottom: 20px;
+}
 
-    .question p {
-      margin: 0 0 10px 0;
-      line-height: 1.45;
-      font-size: 19px;
-      font-weight: bold;
-    }
-
-    label {
-      display: block;
-      margin: 6px 0;
-      line-height: 1.4;
-      font-size: 17px;
-      cursor: pointer;
-    }
-
-    .button-row {
-      margin-top: 24px;
-      text-align: center;
-    }
-
-    button,
-    .fake-button {
-      padding: 13px 24px;
-      border: none;
-      background: #8d6e4f;
-      color: white;
-      font-size: 16px;
-      border-radius: 10px;
-      cursor: pointer;
-      margin: 6px;
-    }
-
-    button:hover,
-    .fake-button:hover {
-      background: #6f543c;
-    }
-
-    .student-info {
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    .student-info label {
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    .student-info input {
-      width: 100%;
-      max-width: 420px;
-      padding: 12px 14px;
-      font-size: 16px;
-      border: 1px solid #c8c2b8;
-      border-radius: 10px;
-      box-sizing: border-box;
-      font-family: Georgia, serif;
-    }
-
-    #result {
-      margin-top: 24px;
-      font-size: 20px;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    #review {
-      margin-top: 22px;
-      font-size: 16px;
-      line-height: 1.5;
-    }
-
-    .review-item {
-      margin-bottom: 14px;
-      padding: 12px;
-      background: rgba(255,255,255,0.68);
-      border-radius: 10px;
-    }
-
-    .print-area {
-      margin-top: 24px;
-      padding: 16px;
-      background: rgba(255,255,255,0.72);
-      border-radius: 10px;
-    }
-
-    .print-area p {
-      margin: 8px 0;
-      font-size: 17px;
-    }
-
-    .start-btn {
-      position: absolute;
-      bottom: 6.5%;
-      right: 10%;
-      width: 330px;
-      height: 95px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-    }
-
-    .start-btn:focus {
-      outline: 3px solid rgba(255,255,255,0.45);
-      outline-offset: 4px;
-    }
-
-    .small-note {
-      text-align: center;
-      font-size: 14px;
-      opacity: 0.8;
-      margin-top: 8px;
-    }
-
-    @media (max-width: 1100px) {
-      .box {
-        width: 82%;
-      }
-
-      .start-btn {
-        right: 8%;
-        bottom: 5.5%;
-        width: 260px;
-        height: 82px;
-      }
-    }
-
-    @media (max-width: 700px) {
-      .box {
-        width: 92%;
-        margin: 24px auto;
-        padding: 20px;
-      }
-
-      .question p {
-        font-size: 17px;
-      }
-
-      label {
-        font-size: 16px;
-      }
-
-      .start-btn {
-        right: 6%;
-        bottom: 4.5%;
-        width: 210px;
-        height: 68px;
-      }
-    }
-
-    @media print {
-      body * {
-        visibility: hidden;
-      }
-
-      #printResults,
-      #printResults * {
-        visibility: visible;
-      }
-
-      #printResults {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        padding: 30px;
-        box-sizing: border-box;
-        background: white;
-        color: black;
-      }
-
-      .no-print {
-        display: none !important;
-      }
-    }
-  </style>
+/* STUDENT INFO */
+.student-info {
+  text-align: center;
+  margin-bottom: 20px;
+}
+</style>
 </head>
+
 <body>
 
-  <!-- LANDING PAGE -->
-  <div id="page1" class="page">
-    <button onclick="startQuiz()" class="start-btn" aria-label="Begin Quiz"></button>
-  </div>
+<!-- PAGE 1 -->
+<div id="page1" class="page">
+  <img src="cover.JPG" class="cover">
+  <button class="start-btn" onclick="startQuiz()"></button>
+</div>
 
-  <!-- QUESTIONS PAGE 1 -->
-  <div id="page2" class="page">
-    <div class="box">
-      <div class="student-info">
-        <label for="studentName">Student Name</label>
-        <input type="text" id="studentName" placeholder="Type your name here" />
-        <div class="small-note">Enter your name before starting so it appears on printed results.</div>
-      </div>
+<!-- PAGE 2 -->
+<div id="page2" class="page">
+  <div class="box">
 
-      <div id="questionsPage1"></div>
-
-      <div class="button-row">
-        <button onclick="goToPage(3)">Next</button>
-      </div>
+    <div class="student-info">
+      <label>Student Name:</label><br>
+      <input id="studentName" placeholder="Enter name">
     </div>
+
+    <div id="quiz"></div>
+
+    <button onclick="submitQuiz()">Submit</button>
+
+    <div id="results"></div>
+
   </div>
+</div>
 
-  <!-- QUESTIONS PAGE 2 + RESULTS -->
-  <div id="page3" class="page">
-    <div class="box">
-      <div id="questionsPage2"></div>
+<script>
 
-      <div class="button-row no-print">
-        <button onclick="showResults()">Submit</button>
-        <button onclick="startQuiz()">Try Again</button>
-        <button onclick="printResults()">Print Results</button>
+let questions = [
+
+{q:"What was Manifest Destiny?", a:"Belief U.S. should expand west", b:"Law about taxes", correct:"a"},
+{q:"Which ocean did Americans want to reach?", a:"Atlantic", b:"Pacific", correct:"b"},
+{q:"Who were pioneers?", a:"People moving west", b:"Government leaders", correct:"a"},
+{q:"What was the Oregon Trail?", a:"A road to Canada", b:"A route west", correct:"b"},
+{q:"Why did settlers move west?", a:"Land and opportunity", b:"To avoid taxes only", correct:"a"},
+{q:"Which group was harmed by expansion?", a:"Native Americans", b:"Factory workers", correct:"a"},
+{q:"What was the Louisiana Purchase?", a:"Buying land from France", b:"War with Spain", correct:"a"},
+{q:"What did settlers travel in?", a:"Covered wagons", b:"Boats only", correct:"a"},
+{q:"What was the Homestead Act?", a:"Free land law", b:"Tax law", correct:"a"},
+{q:"Which was a danger on trails?", a:"Disease", b:"Television", correct:"a"},
+{q:"What did Manifest Destiny encourage?", a:"Expansion west", b:"Staying east", correct:"a"},
+{q:"Who led Lewis and Clark?", a:"Jefferson sent them", b:"Washington sent them", correct:"a"},
+{q:"Why was gold important?", a:"People rushed west", b:"It ended expansion", correct:"a"},
+{q:"What was the Gold Rush?", a:"Search for gold in CA", b:"A war", correct:"a"},
+{q:"Which land was gained after war with Mexico?", a:"Southwest", b:"Canada", correct:"a"},
+{q:"What transportation helped expansion later?", a:"Railroads", b:"Airplanes", correct:"a"},
+{q:"What happened to Native Americans?", a:"Forced off land", b:"Given land", correct:"a"},
+{q:"What belief justified expansion?", a:"Manifest Destiny", b:"Industrialism", correct:"a"},
+{q:"Why was land appealing?", a:"Farming and freedom", b:"Only cold weather", correct:"a"},
+{q:"What did expansion create?", a:"New states", b:"Less land", correct:"a"}
+
+];
+
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
+function startQuiz(){
+  document.getElementById("page1").style.display="none";
+  document.getElementById("page2").style.display="block";
+
+  let quizDiv = document.getElementById("quiz");
+  quizDiv.innerHTML = "";
+
+  let shuffled = shuffle(questions);
+
+  shuffled.forEach((q,i)=>{
+    quizDiv.innerHTML += `
+      <div class="question">
+        <p>${i+1}. ${q.q}</p>
+        <label><input type="radio" name="q${i}" value="a"> ${q.a}</label><br>
+        <label><input type="radio" name="q${i}" value="b"> ${q.b}</label>
       </div>
+    `;
+  });
+}
 
-      <div id="result"></div>
-      <div id="review"></div>
+function submitQuiz(){
+  let score = 0;
+  let total = questions.length;
 
-      <div id="printResults" class="print-area">
-        <h2>Manifest Destiny Interactive Quiz</h2>
-        <p><strong>Name:</strong> <span id="printName">________________</span></p>
-        <p><strong>Score:</strong> <span id="printScore">Not graded yet</span></p>
-        <div id="printMessage"></div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const questionBank = [
-      {
-        id: "q1",
-        promptVersions: [
-          "Manifest Destiny was the belief that the United States should expand west across North America.",
-          "The idea of Manifest Destiny supported U.S. expansion to the West."
-        ],
-        correct: "True",
-        wrong: "False"
-      },
-      {
-        id: "q2",
-        promptVersions: [
-          "Many settlers moved west because they wanted land and new chances to succeed.",
-          "A main reason people moved west was to find land and opportunity."
-        ],
-        correct: "True",
-        wrong: "False"
-      },
-      {
-        id: "q3",
-        promptVersions: [
-          "The Louisiana Purchase greatly increased the size of the United States.",
-          "The Louisiana Purchase added a huge amount of land to the U.S."
-        ],
-        correct: "True",
-        wrong: "False"
-      },
-      {
-        id: "q4",
-        promptVersions: [
-          "The Oregon Trail was one route settlers used to travel west.",
-          "Many pioneers used the Oregon Trail on their journey west."
-        ],
-        correct: "True",
-        wrong: "False"
-      },
-      {
-        id: "q5",
-        promptVersions: [
-          "The California Gold Rush caused many people to move west.",
-          "News of gold in California encouraged people to head west."
-        ],
-        correct: "True",
-        wrong: "False"
-      },
-      {
-        id: "q6",
-        promptVersions: [
-          "Most settlers traveled west by airplane.",
-          "Airplanes were the main way pioneers reached the West."
-        ],
-        correct: "False",
-        wrong: "True"
-      },
-      {
-        id: "q7",
-        promptVersions: [
-          "Westward expansion led to conflicts with many Native American groups.",
-          "As Americans moved west, fights and tensions grew with Native Americans."
-        ],
-        correct: "True",
-        wrong: "False"
-      },
-      {
-        id: "q8",
-        promptVersions: [
-          "The United States gained land after the Mexican-American War.",
-          "One result of the Mexican-American War was that the U.S. got more territory."
-        ],
-        correct: "True",
-        wrong: "False"
-      },
-      {
-        id: "q9",
-        promptVersions: [
-          "Westward expansion had no effect on Native Americans.",
-          "Native American groups were not affected by westward movement."
-        ],
-        correct: "False",
-        wrong: "True"
-      },
-      {
-        id: "q10",
-        promptVersions: [
-          "Railroads helped people and goods move west more quickly.",
-          "The growth of railroads made westward travel faster."
-        ],
-        correct: "True",
-        wrong: "False"
-      },
-      {
-        id: "q11",
-        promptVersions: [
-          "Manifest Destiny was based on the idea that the U.S. had a right to expand.",
-          "People who believed in Manifest Destiny thought the nation should spread west."
-        ],
-        correct: "True",
-        wrong: "False"
-      },
-      {
-        id: "q12",
-        promptVersions: [
-          "The Homestead Act gave land to settlers willing to live on and farm it.",
-          "Under the Homestead Act, settlers could earn land by farming it."
-        ],
-        correct: "True",
-        wrong: "False"
-      },
-      {
-        id: "q13",
-        promptVersions: [
-          "Florida became part of the U.S. after being gained from Spain.",
-          "The United States gained Florida from Spain."
-        ],
-        correct: "True",
-        wrong: "False"
-      },
-      {
-        id: "q14",
-        promptVersions: [
-          "Covered wagons were often used by pioneer families traveling west.",
-          "Many pioneer families used covered wagons on western trails."
-        ],
-        correct: "True",
-        wrong: "False"
-      },
-      {
-        id: "q15",
-        promptVersions: [
-          "As the country expanded west, new states were added to the United States.",
-          "Westward expansion helped lead to the creation of new U.S. states."
-        ],
-        correct: "True",
-        wrong: "False"
-      },
-      {
-        id: "q16",
-        promptVersions: [
-          "Native Americans willingly gave up all of their land to settlers.",
-          "Native American groups freely handed over their lands during expansion."
-        ],
-        correct: "False",
-        wrong: "True"
-      },
-      {
-        id: "q17",
-        promptVersions: [
-          "The California Gold Rush began in 1848.",
-          "Gold was discovered in California in 1848, starting the Gold Rush."
-        ],
-        correct: "True",
-        wrong: "False"
-      },
-      {
-        id: "q18",
-        promptVersions: [
-          "Westward expansion helped the United States reach the Pacific Ocean.",
-          "As the U.S. expanded west, it stretched all the way to the Pacific."
-        ],
-        correct: "True",
-        wrong: "False"
-      },
-      {
-        id: "q19",
-        promptVersions: [
-          "The Mexican-American War caused the U.S. to lose land.",
-          "After the Mexican-American War, the United States had less land than before."
-        ],
-        correct: "False",
-        wrong: "True"
-      },
-      {
-        id: "q20",
-        promptVersions: [
-          "Westward expansion created arguments over slavery in new territories.",
-          "As new western lands were added, people argued about whether slavery would spread there."
-        ],
-        correct: "True",
-        wrong: "False"
-      }
-    ];
-
-    let activeQuestions = [];
-
-    function shuffleArray(array) {
-      const arr = [...array];
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
+  questions.forEach((q,i)=>{
+    let answer = document.querySelector(`input[name="q${i}"]:checked`);
+    if(answer && answer.value === q.correct){
+      score++;
     }
+  });
 
-    function pickPrompt(promptVersions) {
-      return promptVersions[Math.floor(Math.random() * promptVersions.length)];
-    }
+  let name = document.getElementById("studentName").value;
 
-    function buildQuestionHTML(question, number) {
-      const prompt = pickPrompt(question.promptVersions);
+  document.getElementById("results").innerHTML = `
+    <h3>${name}'s Score: ${score}/${total}</h3>
+    <button onclick="location.reload()">Try Again</button>
+    <button onclick="window.print()">Print</button>
+  `;
+}
 
-      const choices = shuffleArray([
-        { text: question.correct, isCorrect: true },
-        { text: question.wrong, isCorrect: false }
-      ]);
-
-      question.currentPrompt = prompt;
-      question.currentChoices = choices;
-
-      return `
-        <div class="question">
-          <p>${number}. ${prompt}</p>
-          <label>
-            <input type="radio" name="${question.id}" value="${choices[0].isCorrect}">
-            ${choices[0].text}
-          </label>
-          <label>
-            <input type="radio" name="${question.id}" value="${choices[1].isCorrect}">
-            ${choices[1].text}
-          </label>
-        </div>
-      `;
-    }
-
-    function renderQuestions() {
-      const page1Questions = document.getElementById("questionsPage1");
-      const page2Questions = document.getElementById("questionsPage2");
-
-      page1Questions.innerHTML = "";
-      page2Questions.innerHTML = "";
-
-      activeQuestions.forEach((question, index) => {
-        const html = buildQuestionHTML(question, index + 1);
-        if (index < 10) {
-          page1Questions.innerHTML += html;
-        } else {
-          page2Questions.innerHTML += html;
-        }
-      });
-    }
-
-    function goToPage(pageNumber) {
-      document.querySelectorAll(".page").forEach(page => page.style.display = "none");
-      document.getElementById("page" + pageNumber).style.display = "block";
-      window.scrollTo(0, 0);
-    }
-
-    function startQuiz() {
-      activeQuestions = shuffleArray(questionBank).map(q => ({ ...q }));
-      document.getElementById("result").innerHTML = "";
-      document.getElementById("review").innerHTML = "";
-      document.getElementById("printScore").textContent = "Not graded yet";
-      document.getElementById("printMessage").innerHTML = "";
-
-      const studentName = document.getElementById("studentName").value.trim();
-      document.getElementById("printName").textContent = studentName || "________________";
-
-      renderQuestions();
-      goToPage(2);
-    }
-
-    function showResults() {
-      let score = 0;
-      let reviewHTML = "";
-
-      activeQuestions.forEach((question, index) => {
-        const selected = document.querySelector(`input[name="${question.id}"]:checked`);
-        const questionNumber = index + 1;
-
-        if (selected && selected.value === "true") {
-          score++;
-        } else {
-          reviewHTML += `
-            <div class="review-item">
-              <strong>Question ${questionNumber}:</strong> ${question.currentPrompt}<br>
-              <strong>Correct answer:</strong> ${question.correct}
-            </div>
-          `;
-        }
-      });
-
-      let message = "";
-
-      if (score >= 18) message = "Excellent work! You really understand this topic.";
-      else if (score >= 14) message = "Nice job! You understand most of the ideas.";
-      else if (score >= 10) message = "You're getting there. Review a few key ideas.";
-      else message = "Keep practicing. You’re still learning this topic.";
-
-      document.getElementById("result").innerHTML = `
-        <h2>Your Score: ${score}/20</h2>
-        <p>${message}</p>
-      `;
-
-      if (reviewHTML === "") {
-        document.getElementById("review").innerHTML =
-          "<p style='text-align:center;'><strong>Perfect score! Amazing job.</strong></p>";
-      } else {
-        document.getElementById("review").innerHTML =
-          `<h3>Review Your Answers</h3>${reviewHTML}`;
-      }
-
-      document.getElementById("printScore").textContent = `${score}/20`;
-      document.getElementById("printMessage").innerHTML = `<p><strong>Teacher Note:</strong> ${message}</p>`;
-    }
-
-    function printResults() {
-      const studentName = document.getElementById("studentName").value.trim();
-      document.getElementById("printName").textContent = studentName || "________________";
-      window.print();
-    }
-  </script>
+</script>
 
 </body>
 </html>
