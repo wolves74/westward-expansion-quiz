@@ -28,20 +28,62 @@ body {
 
 .box {
   width:90%;
-  max-width:850px;
+  max-width:900px;
   margin:40px auto;
   background:white;
-  padding:25px;
+  padding:30px;
   border-radius:12px;
+  box-sizing:border-box;
 }
 
-h2 { text-align:center; }
+h2 {
+  text-align:center;
+  margin-top:10px;
+}
 
-.question { margin-bottom:20px; }
+.question {
+  margin-bottom:24px;
+  padding-bottom:18px;
+  border-bottom:1px solid #e6e0d7;
+}
 
-label { display:block; margin:6px 0; cursor:pointer; }
+.question:last-child {
+  border-bottom:none;
+}
 
-.match { margin-bottom:15px; }
+.question p {
+  font-size:19px;
+  line-height:1.5;
+  margin:0 0 10px 0;
+  font-weight:bold;
+}
+
+label {
+  display:block;
+  margin:7px 0;
+  cursor:pointer;
+  line-height:1.45;
+  font-size:17px;
+}
+
+.match {
+  margin-bottom:18px;
+}
+
+.match label {
+  font-weight:bold;
+  margin-bottom:6px;
+}
+
+.match select {
+  padding:10px;
+  width:100%;
+  max-width:520px;
+  font-size:16px;
+  font-family:Georgia, serif;
+  border-radius:8px;
+  border:1px solid #cfc7bc;
+}
 
 button {
   padding:12px 20px;
@@ -51,33 +93,66 @@ button {
   border-radius:8px;
   cursor:pointer;
   margin:10px;
+  font-size:16px;
 }
 
 .button-row { text-align:center; }
 
+.student-name {
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.student-name input {
+  padding:10px;
+  width:260px;
+  font-size:16px;
+  border:1px solid #cfc7bc;
+  border-radius:8px;
+  font-family:Georgia, serif;
+}
+
+#results {
+  margin-top:25px;
+  font-size:18px;
+}
+
+.review-item {
+  margin-top:12px;
+  padding:12px;
+  background:#f5f1eb;
+  border-radius:10px;
+}
+
 @media print {
   body * { visibility:hidden; }
   #printArea, #printArea * { visibility:visible; }
-  #printArea { position:absolute; top:0; left:0; width:100%; background:white; padding:30px; }
+  #printArea {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    background:white;
+    padding:30px;
+    box-sizing:border-box;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- PAGE 1 -->
 <div id="page1" class="page">
-  <img src="cover.JPG" class="cover">
-  <button class="start-btn" onclick="startQuiz()"></button>
+  <img src="cover.JPG" class="cover" alt="Manifest Destiny Quiz Cover">
+  <button class="start-btn" onclick="startQuiz()" aria-label="Begin Quiz"></button>
 </div>
 
-<!-- PAGE 2 -->
 <div id="page2" class="page">
   <div class="box">
 
-    <div style="text-align:center;">
-      <label><b>Name:</b></label>
-      <input id="name" style="padding:10px; width:250px;">
+    <div class="student-name">
+      <p><strong>Student Name</strong></p>
+      <input id="name" placeholder="Enter your name">
     </div>
 
     <h2>Part 1: Vocabulary</h2>
@@ -95,110 +170,123 @@ button {
     <div id="results"></div>
 
     <div id="printArea">
-      <h2>Manifest Destiny Quiz</h2>
-      <p><b>Name:</b> <span id="printName"></span></p>
-      <p><b>Score:</b> <span id="printScore"></span></p>
+      <h2>Manifest Destiny Assessment</h2>
+      <p><strong>Name:</strong> <span id="printName"></span></p>
+      <p><strong>Score:</strong> <span id="printScore"></span></p>
     </div>
 
   </div>
 </div>
 
 <script>
-
-/* VOCAB */
 let vocab = [
-{word:"Manifest Destiny", def:"Belief U.S. should expand west"},
-{word:"Oregon Trail", def:"Route settlers used west"},
-{word:"Gold Rush", def:"Search for gold in California"},
-{word:"Homestead Act", def:"Law giving free land"},
-{word:"Pioneer", def:"Person who moves to new land"}
+  {word:"Manifest Destiny", def:"the belief that the United States should expand westward across North America"},
+  {word:"Oregon Trail", def:"a route many settlers used as they traveled west"},
+  {word:"Gold Rush", def:"a period when many people moved west to search for gold"},
+  {word:"Homestead Act", def:"a law that gave land to settlers who agreed to live on and farm it"},
+  {word:"Pioneer", def:"a person who moves to a new area to settle there"}
 ];
 
-/* QUESTIONS */
 let questions = [
-["What was Manifest Destiny?",["A tax law","A belief to expand west","A war","A trade route"],1],
-["Which ocean did U.S. reach?",["Atlantic","Pacific","Indian","Arctic"],1],
-["Who were pioneers?",["Leaders","Settlers moving west","Soldiers","Farmers only"],1],
-["Oregon Trail was?",["River","Path west","City","Law"],1],
-["Why move west?",["Gold & land","Only taxes","Cold weather","War"],0],
-["Who was affected most?",["Native Americans","Factory workers","Teachers","Merchants"],0],
-["Louisiana Purchase?",["Bought land","War","Treaty only","Trade"],0],
-["Travel method?",["Planes","Wagons","Cars","Ships"],1],
-["Homestead Act did?",["Taxes","Free land","War law","Railroads"],1],
-["Trail danger?",["TV","Disease","Phones","Internet"],1],
-["Expansion encouraged?",["Staying east","Going west","Travel abroad","None"],1],
-["Gold Rush result?",["People moved west","Ended travel","Stopped expansion","War"],0],
-["California gold year?",["1848","1900","1800","1700"],0],
-["War with Mexico result?",["More land","Lost land","No change","Alliance"],0],
-["Railroads did?",["Slow travel","Faster travel","No change","Stop travel"],1],
-["Native Americans?",["Forced off land","Given land","No change","Helped expansion"],0],
-["Expansion belief?",["Manifest Destiny","Industrialism","Colonialism","None"],0],
-["Why land appealing?",["Farming","Cold","Nothing","Taxes"],0],
-["Expansion created?",["New states","Less land","Wars only","Nothing"],0],
-["Final goal?",["Reach Pacific","Return east","Trade only","Stop growth"],0]
+  ["Which statement best explains the idea of Manifest Destiny?", ["It was the belief that the United States should expand westward.", "It was a law that ended westward travel.", "It was a military plan created by Mexico.", "It was a trade route to Europe."], 0],
+  ["Why did many Americans choose to move west during the 1800s?", ["They wanted land, jobs, and new opportunities.", "They were ordered by the government to leave the East.", "They wanted to avoid using railroads.", "They believed cities in the East were illegal."], 0],
+  ["What was one important result of the Louisiana Purchase?", ["It reduced the size of the United States.", "It gave the United States a large amount of new land.", "It ended all conflict with Native Americans.", "It created the Oregon Trail."], 1],
+  ["Why was the Oregon Trail important to westward expansion?", ["It was one of the main routes settlers used to travel west.", "It was the first railroad line built in America.", "It was used only by soldiers during wartime.", "It connected the United States to Europe."], 0],
+  ["How did the California Gold Rush affect westward expansion?", ["It caused many people to head west in search of wealth.", "It made settlers return to the East Coast.", "It ended the building of railroads.", "It stopped people from moving to California."], 0],
+  ["Which method of travel was most closely connected to early settlers moving west?", ["Covered wagons", "Airplanes", "Subways", "Automobiles"], 0],
+  ["How did westward expansion affect many Native American groups?", ["It often forced them off their land and led to conflict.", "It gave them more control over western land.", "It had almost no effect on them.", "It moved them into large eastern cities."], 0],
+  ["What happened after the Mexican-American War ended?", ["The United States gained additional western territory.", "Mexico gained control of California.", "The Oregon Trail was closed forever.", "The United States lost land in the Southwest."], 0],
+  ["Why were railroads important to westward expansion?", ["They made travel and shipping faster across long distances.", "They stopped settlers from moving west.", "They were used only in the South.", "They replaced the need for towns and farms."], 0],
+  ["What was the purpose of the Homestead Act?", ["To give settlers land if they agreed to live on and farm it", "To tax farmers who moved west", "To close western territories to settlement", "To return land to Spain"], 0],
+  ["Which statement best describes a pioneer?", ["A person who settled in a new area", "A person who fought in the Civil War", "A person who worked only in factories", "A person who served as president"], 0],
+  ["Why did the United States want to reach the Pacific Ocean?", ["Leaders believed the nation should stretch from coast to coast.", "The Pacific Ocean was the only place where crops could grow.", "It was required by the Constitution.", "Most settlers wanted to move back east after arriving there."], 0],
+  ["What was one danger settlers faced while traveling west?", ["Disease and harsh weather", "Too many paved roads", "Lack of land to settle", "Modern traffic"], 0],
+  ["Why did westward expansion create arguments about slavery?", ["People disagreed about whether slavery would be allowed in new territories.", "The West had already banned farming.", "Railroads refused to carry enslaved people.", "Native Americans voted on slavery in Congress."], 0],
+  ["Which statement about Manifest Destiny is most accurate?", ["Many Americans used it to justify moving west and taking more land.", "It was a belief that the nation should remain small.", "It referred only to trade with Mexico.", "It was created after the Civil War."], 0],
+  ["What was one reason land in the West appealed to settlers?", ["It gave families the chance to farm and build a new life.", "It was already fully developed with large cities.", "It allowed people to avoid all hard work.", "It guaranteed everyone would find gold."], 0],
+  ["Which event encouraged thousands of people to move to California?", ["The Gold Rush", "The Louisiana Purchase", "The War of 1812", "The Boston Tea Party"], 0],
+  ["What was one long-term effect of westward expansion on the United States?", ["New territories eventually became new states.", "The nation became smaller.", "Railroads disappeared.", "People stopped farming."], 0],
+  ["How were Native Americans and settlers often affected differently by westward expansion?", ["Settlers gained land while many Native Americans lost land.", "Both groups gained equal amounts of land.", "Native Americans controlled most new settlements.", "Settlers were forced onto reservations."], 0],
+  ["Which sentence best explains why Manifest Destiny is important in U.S. history?", ["It helps explain why the United States expanded westward and how that expansion affected different groups of people.", "It explains why the United States ended westward travel in the early 1800s.", "It shows how railroads were not useful during expansion.", "It proves that all Americans agreed about expansion."], 0]
 ];
 
-function shuffle(a){ return a.sort(()=>Math.random()-0.5); }
-
-function startQuiz(){
-  document.getElementById("page1").style.display="none";
-  document.getElementById("page2").style.display="block";
-
-  let v = "";
-  vocab.forEach((item,i)=>{
-    let defs = shuffle(vocab.map(x=>x.def));
-    v += `<div class="match">
-      <b>${item.word}</b><br>
-      <select id="v${i}">
-        ${defs.map(d=>`<option>${d}</option>`).join("")}
-      </select>
-    </div>`;
-  });
-  document.getElementById("vocab").innerHTML = v;
-
-  let qHTML="";
-  shuffle(questions).forEach((q,i)=>{
-    let opts = shuffle(q[1].map((text,idx)=>({text, idx})));
-    qHTML += `<div class="question">
-      <p>${i+1}. ${q[0]}</p>
-      ${opts.map(o=>`
-        <label>
-          <input type="radio" name="q${i}" value="${o.idx}">
-          ${o.text}
-        </label>
-      `).join("")}
-    </div>`;
-    q.correctIndex = q[2];
-    q.currentOptions = opts;
-  });
-
-  window.currentQuestions = questions;
-  document.getElementById("quiz").innerHTML = qHTML;
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
 }
 
-function submitQuiz(){
-  let score=0;
-  let total=25;
+function startQuiz() {
+  document.getElementById("page1").style.display = "none";
+  document.getElementById("page2").style.display = "block";
 
-  vocab.forEach((v,i)=>{
+  let vocabHTML = "";
+  vocab.forEach((item, i) => {
+    let defs = shuffle(vocab.map(x => x.def));
+    vocabHTML += `
+      <div class="match">
+        <label>${item.word}</label>
+        <select id="v${i}">
+          ${defs.map(d => `<option>${d}</option>`).join("")}
+        </select>
+      </div>
+    `;
+  });
+  document.getElementById("vocab").innerHTML = vocabHTML;
+
+  let questionSet = shuffle([...questions]);
+  window.currentQuestions = questionSet;
+
+  let quizHTML = "";
+  questionSet.forEach((q, i) => {
+    let options = shuffle(q[1].map((text, idx) => ({ text, idx })));
+    q.currentOptions = options;
+
+    quizHTML += `
+      <div class="question">
+        <p>${i + 1}. ${q[0]}</p>
+        ${options.map(o => `
+          <label>
+            <input type="radio" name="q${i}" value="${o.idx}">
+            ${o.text}
+          </label>
+        `).join("")}
+      </div>
+    `;
+  });
+
+  document.getElementById("quiz").innerHTML = quizHTML;
+  document.getElementById("results").innerHTML = "";
+}
+
+function submitQuiz() {
+  let score = 0;
+
+  vocab.forEach((v, i) => {
     let val = document.getElementById(`v${i}`).value;
-    if(val===v.def) score++;
+    if (val === v.def) score++;
   });
 
-  currentQuestions.forEach((q,i)=>{
+  currentQuestions.forEach((q, i) => {
     let ans = document.querySelector(`input[name="q${i}"]:checked`);
-    if(ans && parseInt(ans.value)===q.correctIndex) score++;
+    if (ans && parseInt(ans.value) === q[2]) score++;
   });
 
-  let name=document.getElementById("name").value;
+  let total = 25;
+  let name = document.getElementById("name").value.trim();
 
-  document.getElementById("results").innerHTML =
-    `<h3>${name}'s Score: ${score}/25</h3>`;
+  let message = "";
+  if (score >= 22) message = "Excellent work! You showed a strong understanding of the topic.";
+  else if (score >= 18) message = "Nice job! You understood most of the important ideas.";
+  else if (score >= 14) message = "You are making progress, but you should review the lesson again.";
+  else message = "Keep practicing. Review the notes and try again.";
 
-  document.getElementById("printName").textContent=name;
-  document.getElementById("printScore").textContent=`${score}/25`;
+  document.getElementById("results").innerHTML = `
+    <h3>${name || "Student"}'s Score: ${score}/${total}</h3>
+    <p>${message}</p>
+  `;
+
+  document.getElementById("printName").textContent = name || "________________";
+  document.getElementById("printScore").textContent = `${score}/${total}`;
 }
-
 </script>
 
 </body>
